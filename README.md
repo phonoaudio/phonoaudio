@@ -1,4 +1,8 @@
-### Hi there 👋
+# PhonoAudio Suite 👋
+
+PhonoAudio Suite is a set of tools for speech–language pathologists (SLP).
+
+The first PhonoAudio module is under construction: Audiometry Report creation and management.
 
 <!--
 **phonoaudio/phonoaudio** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
