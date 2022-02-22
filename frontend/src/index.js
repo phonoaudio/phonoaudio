@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-
+import React from "react";
+import ReactDOM from "react-dom";
+import Chart from "./Componente/Charts/Charts";
+import StatusBar from "./StatusBar/StatusBar";
+import "./style.css";
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <StatusBar />
+    <Chart />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
-
