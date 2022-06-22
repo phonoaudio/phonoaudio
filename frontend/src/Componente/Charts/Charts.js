@@ -84,6 +84,7 @@ function Charts() {
 
   return (
     <div className="App">
+      <h1>Phonoaudio</h1>
       <div className="charts">
         <Chart
           chartType="ScatterChart"
@@ -105,6 +106,7 @@ function Charts() {
       <div className="spaces-inputs">
         <div className="inputs">
           <input
+            className="charts-inputs"
             type="number"
             name="0,25 "
             placeholder="0,25"
@@ -115,6 +117,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="0,5"
             placeholder="0,5"
@@ -125,6 +128,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="1"
             placeholder="1"
@@ -135,6 +139,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="2"
             placeholder="2"
@@ -145,6 +150,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="3"
             placeholder="3"
@@ -155,6 +161,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="4"
             placeholder="4"
@@ -165,6 +172,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="6"
             placeholder="6"
@@ -175,6 +183,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="8"
             placeholder="8"
@@ -183,11 +192,14 @@ function Charts() {
               setOEArray(orelhaEsquerda);
             }}
           ></input>
-          <button onClick={() => onSubE()}> Plotar</button>
+          <button className=" chart-button" onClick={() => onSubE()}>
+            <a>Plotar</a>
+          </button>
         </div>
 
         <div className="inputsD">
           <input
+            className="charts-inputs"
             type="number"
             name="D25"
             placeholder="0,25"
@@ -198,6 +210,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="D5"
             placeholder="0,5"
@@ -208,6 +221,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="D1"
             placeholder="1"
@@ -218,6 +232,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="D2"
             placeholder="2"
@@ -228,6 +243,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="D3"
             placeholder="3"
@@ -238,6 +254,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="D4"
             placeholder="4"
@@ -248,6 +265,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="D6"
             placeholder="6"
@@ -258,6 +276,7 @@ function Charts() {
           ></input>
 
           <input
+            className="charts-inputs"
             type="number"
             name="D8"
             placeholder="8"
@@ -267,7 +286,9 @@ function Charts() {
             }}
           ></input>
 
-          <button onClick={() => onSubD()}> Plotar</button>
+          <button className=" chart-button" onClick={() => onSubD()}>
+            <a>Plotar</a>
+          </button>
         </div>
       </div>
     </div>
