@@ -13,12 +13,12 @@
   display: block;
   width: 5rem;
   height: 0.3rem;
-  background-color: #6c63ff;
+  background-color: #fff;
   margin: 0 auto;
   position: absolute;
   border-radius: 10px;
 }
 
 body {
-  background: #0c0ce94d;
+  background: #fff;
 }

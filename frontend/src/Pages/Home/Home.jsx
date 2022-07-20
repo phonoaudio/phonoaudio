@@ -1,10 +1,10 @@
-import Chart from "../../Componente/Charts/Charts";
+import { Register } from "../Register/Register";
 import "./Home.css";
 export const Home = () => {
   return (
     <div className="home-wrapper">
       <div className="home-container">
-        <Chart />
+        <Register />
       </div>
     </div>
   );
