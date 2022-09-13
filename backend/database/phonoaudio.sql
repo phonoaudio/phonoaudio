@@ -38,6 +38,7 @@ ENGINE = InnoDB;
 -- Table `phonodb`.`exam`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `phonodb`.`exam` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `person_cpf` INT NOT NULL,
   `laudo` VARCHAR(500) NULL,
   `monoE` INT NULL,
@@ -89,12 +90,12 @@ CREATE TABLE IF NOT EXISTS `phonodb`.`exam` (
   `d7` INT NULL,
   `d8` INT NULL,
   INDEX `fk_exam_person_idx` (`person_cpf` ASC) VISIBLE,
-  PRIMARY KEY (`person_cpf`),
+  PRIMARY KEY (`id`),
   CONSTRAINT `fk_exam_person`
     FOREIGN KEY (`person_cpf`)
     REFERENCES `phonodb`.`person` (`cpf`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

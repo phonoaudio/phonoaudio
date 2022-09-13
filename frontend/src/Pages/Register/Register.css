@@ -227,7 +227,8 @@ select:hover {
 }
 
 .information-group {
-  margin-left: 10%;
+  margin-left: 5%;
+  min-width: 350px;
 }
 
 input::-webkit-outer-spin-button,

@@ -10,23 +10,24 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { LaudoPre } from "../../laudos/laudo";
+import { proficioes } from "../../laudos/proficioes";
+import { solicitantes } from "../../laudos/solicitantes";
 import Axios from "axios";
-import { Alert, AlertTitle } from "@mui/material";
+
 export const Register = () => {
   const [name, setName] = useState("");
   const [profession, setProfession] = useState("");
   const [insurance, setInsurance] = useState("");
   const [requester, setRequester] = useState("");
-  const [age, setAge] = useState(0);
+  const [age] = useState(0);
   const [sex, setSex] = useState("");
   const [dn, setDn] = useState("");
   const [di, setDi] = useState("");
   const [fono, setFono] = useState("");
   const [isLaudo, setIsLaudo] = useState(false);
   const [laudo, setLaudo] = useState("");
+  const [isRegister, setIsRegister] = useState(false);
 
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   //limiares audiometricos
   const [monoE, setMonoE] = useState(0.0);
   const [dissE, setDissE] = useState(0.0);
@@ -128,6 +129,7 @@ export const Register = () => {
   function createData2(ipsiD, lateraisD, hertz, lateraisE, ipsiE) {
     return { ipsiD, lateraisD, hertz, lateraisE, ipsiE };
   }
+
   const rows = [
     createData(volumeD, "Volume (ml)", volumeE),
     createData(pressaoD, "Pressão(daPa)", pressaoE),
@@ -150,97 +152,153 @@ export const Register = () => {
   const handleFocus = (event) => event.target.select();
 
   const handleClick = () => {
-    setError("");
-    setSuccess("");
-    Axios.post("http://localhost:3001/register", {
-      cpf: di,
-      name: name,
-      profession: profession,
-      insurance: insurance,
-      requester: requester,
-      age: age,
-      sex: sex,
-      dn: dn,
-      fono: fono,
+    searchPerson();
+    if (isRegister) {
+      console.log("registrado");
+      Axios.post("http://localhost:3001/exam", {
+        person_cpf: di,
+        laudo: laudo,
+        monoE: monoE,
+        dissE: dissE,
+        dbnaE: dbnaE,
+        srtE: srtE,
+        monoD: monoD,
+        dbnaD: dbnaD,
+        srtD: srtD,
+        pressaoE: pressaoE,
+        complE: complE,
+        volumeE: volumeE,
+        gradE: gradE,
+        fechaE: fechaE,
+        pressaoD: pressaoD,
+        complD: complD,
+        volumeD: volumeD,
+        gradD: gradD,
+        fechaD: fechaD,
+        contraLD1: contraLD1,
+        contraLD2: contraLD2,
+        contraLD3: contraLD3,
+        contraLD4: contraLD4,
+        contraLE1: contraLE1,
+        contraLE2: contraLE2,
+        contraLE3: contraLE3,
+        contraLE4: contraLE4,
+        ipsiD1: ipsiD1,
+        ipsiD2: ipsiD2,
+        ipsiD3: ipsiD3,
+        ipsiD4: ipsiD4,
+        ipsiE1: ipsiE1,
+        ipsiE2: ipsiE2,
+        ipsiE3: ipsiE3,
+        e1: e1,
+        e2: e2,
+        e3: e3,
+        e4: e4,
+        e5: e5,
+        e6: e6,
+        e7: e7,
+        e8: e8,
+        d1: d1,
+        d2: d2,
+        d3: d3,
+        d4: d4,
+        d5: d5,
+        d6: d6,
+        d7: d7,
+        d8: d8,
+      }).then(function (response) {
+        console.log(response);
+      });
+    } else {
+      Axios.post("http://localhost:3001/register", {
+        cpf: di,
+        name: name,
+        profession: profession,
+        insurance: insurance,
+        requester: requester,
+        age: age,
+        sex: sex,
+        dn: dn,
+        fono: fono,
 
-      person_cpf: di,
-      laudo: laudo,
-      monoE: monoE,
-      dissE: dissE,
-      dbnaE: dbnaE,
-      srtE: srtE,
-      monoD: monoD,
-      dbnaD: dbnaD,
-      srtD: srtD,
-      pressaoE: pressaoE,
-      complE: complE,
-      volumeE: volumeE,
-      gradE: gradE,
-      fechaE: fechaE,
-      pressaoD: pressaoD,
-      complD: complD,
-      volumeD: volumeD,
-      gradD: gradD,
-      fechaD: fechaD,
-      contraLD1: contraLD1,
-      contraLD2: contraLD2,
-      contraLD3: contraLD3,
-      contraLD4: contraLD4,
-      contraLE1: contraLE1,
-      contraLE2: contraLE2,
-      contraLE3: contraLE3,
-      contraLE4: contraLE4,
-      ipsiD1: ipsiD1,
-      ipsiD2: ipsiD2,
-      ipsiD3: ipsiD3,
-      ipsiD4: ipsiD4,
-      ipsiE1: ipsiE1,
-      ipsiE2: ipsiE2,
-      ipsiE3: ipsiE3,
-      e1: e1,
-      e2: e2,
-      e3: e3,
-      e4: e4,
-      e5: e5,
-      e6: e6,
-      e7: e7,
-      e8: e8,
-      d1: d1,
-      d2: d2,
-      d3: d3,
-      d4: d4,
-      d5: d5,
-      d6: d6,
-      d7: d7,
-      d8: d8,
-    }).then(function (response) {
-      if (response.data.errno === 1062) {
-        setError("CPF já cadastrada verifique!");
-      } else if (response.data.serverStatus === 2) {
-        setSuccess("Cadastrado com sucesso");
-      }
-    });
+        person_cpf: di,
+        laudo: laudo,
+        monoE: monoE,
+        dissE: dissE,
+        dbnaE: dbnaE,
+        srtE: srtE,
+        monoD: monoD,
+        dbnaD: dbnaD,
+        srtD: srtD,
+        pressaoE: pressaoE,
+        complE: complE,
+        volumeE: volumeE,
+        gradE: gradE,
+        fechaE: fechaE,
+        pressaoD: pressaoD,
+        complD: complD,
+        volumeD: volumeD,
+        gradD: gradD,
+        fechaD: fechaD,
+        contraLD1: contraLD1,
+        contraLD2: contraLD2,
+        contraLD3: contraLD3,
+        contraLD4: contraLD4,
+        contraLE1: contraLE1,
+        contraLE2: contraLE2,
+        contraLE3: contraLE3,
+        contraLE4: contraLE4,
+        ipsiD1: ipsiD1,
+        ipsiD2: ipsiD2,
+        ipsiD3: ipsiD3,
+        ipsiD4: ipsiD4,
+        ipsiE1: ipsiE1,
+        ipsiE2: ipsiE2,
+        ipsiE3: ipsiE3,
+        e1: e1,
+        e2: e2,
+        e3: e3,
+        e4: e4,
+        e5: e5,
+        e6: e6,
+        e7: e7,
+        e8: e8,
+        d1: d1,
+        d2: d2,
+        d3: d3,
+        d4: d4,
+        d5: d5,
+        d6: d6,
+        d7: d7,
+        d8: d8,
+      });
+    }
   };
 
+  function searchPerson() {
+    Axios.get(`http://localhost:3001/person/${di}`, { cpf: di }).then(function (
+      response
+    ) {
+      if (response.data) {
+        setDn(response.data[0].dn);
+        setFono(response.data[0].fono);
+        setInsurance(response.data[0].insurance);
+        setName(response.data[0].name);
+        setProfession(response.data[0].profession);
+        setRequester(response.data[0].requester);
+        setSex(response.data[0].sex);
+        setIsRegister(true);
+      } else {
+        setIsRegister(false);
+      }
+    });
+  }
   return (
     <>
       {" "}
       <div className="register-wrapper">
         <div className="container">
           <div className="form-image">
-            {error && (
-              <Alert severity="error">
-                <AlertTitle>Error</AlertTitle>
-                {error}
-              </Alert>
-            )}
-
-            {success && (
-              <Alert severity="success">
-                <AlertTitle>Sucesso</AlertTitle>
-                {success}
-              </Alert>
-            )}
             <div className="form-header">
               <div className="title">
                 <h3>Dados</h3>
@@ -270,10 +328,6 @@ export const Register = () => {
               </div>
 
               <div className="information-group">
-                <div className="form-information">
-                  <label>Idade: </label>
-                  <p>{age}</p>
-                </div>
                 <div className="form-information">
                   <label>Sexo: </label>
                   <p>
@@ -319,7 +373,7 @@ export const Register = () => {
                     <p>SRT = {srtE} dBNA</p>
                   </tr>
                   <tr>
-                    <h5>OR</h5>
+                    <h5>OD</h5>
                     <p>
                       IRF= {monoD} Mono: {dbnaD} dBNA {dissD} Diss: {dbnaD} dBNA{" "}
                     </p>
@@ -366,7 +420,7 @@ export const Register = () => {
                     <TableCell>OE</TableCell>
 
                     <TableCell align="center">Medidas de Limitância</TableCell>
-                    <TableCell align="center">OE</TableCell>
+                    <TableCell align="center">OD</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -426,7 +480,19 @@ export const Register = () => {
                   <h3>Cadastro do usuário</h3>
                 </div>
               </div>
+
               <div className="input-group">
+                <div className="input-box">
+                  <label htmlFor="DI">Documento</label>
+                  <input
+                    id="DI"
+                    type="text"
+                    value={di}
+                    placeholder="Documento do pacien"
+                    onChange={(e) => setDi(e.target.value)}
+                  />
+                  <button onClick={() => searchPerson(di)}>+</button>
+                </div>
                 <div className="input-box">
                   <label htmlFor="firstname">Nome</label>
                   <input
@@ -435,33 +501,41 @@ export const Register = () => {
                     type="text"
                     name="firstname"
                     required
-                    placeholder="Nome do pasciente"
+                    placeholder="Nome do pacien"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
 
                 <div className="input-box">
-                  <label htmlFor="profession">Profissão</label>
-                  <input
+                  <label htmlFor="Requester">Profissão</label>
+                  <select
                     id="profession"
                     type="text"
                     name="profession"
-                    placeholder="Profissão do pasciente"
+                    placeholder="Profissão do paciente"
                     value={profession}
                     onChange={(e) => setProfession(e.target.value)}
-                  />
+                  >
+                    {proficioes.map((name) => {
+                      return <option value={name}>{name}</option>;
+                    })}
+                  </select>
                 </div>
                 <div className="input-box">
                   <label htmlFor="Requester">Solicitante</label>
-                  <input
+                  <select
                     id="Requester"
                     type="text"
                     name="Requester"
                     placeholder="Solicitante do exame"
                     value={requester}
                     onChange={(e) => setRequester(e.target.value)}
-                  />
+                  >
+                    {solicitantes.map((name) => {
+                      return <option value={name}>{name}</option>;
+                    })}
+                  </select>
                 </div>
 
                 <div className="input-box">
@@ -469,34 +543,12 @@ export const Register = () => {
                   <input
                     id="HealthInsurance"
                     type="text"
-                    placeholder="Convênio do pasciente"
+                    placeholder="Convênio do pacien"
                     value={insurance}
                     onChange={(e) => setInsurance(e.target.value)}
                   />
                 </div>
 
-                <div className="input-box">
-                  <label htmlFor="age">Idade</label>
-                  <input
-                    id="age"
-                    type="number"
-                    name="age"
-                    placeholder="Idade do pasciente"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                  />
-                </div>
-
-                <div className="input-box">
-                  <label htmlFor="DI">DI</label>
-                  <input
-                    id="DI"
-                    type="text"
-                    value={di}
-                    placeholder="Documento do pasciente"
-                    onChange={(e) => setDi(e.target.value)}
-                  />
-                </div>
                 <div className="input-box">
                   <label htmlFor="fono">Fono</label>
                   <input
@@ -513,7 +565,7 @@ export const Register = () => {
                   <select
                     name="sex"
                     id="sex"
-                    placeholder="Sexo do pasciente"
+                    placeholder="Sexo do pacien"
                     value={sex}
                     onChange={(e) => setSex(e.target.value)}
                   >
@@ -583,9 +635,9 @@ export const Register = () => {
                 <div className="inputs">
                   <input
                     className="charts-inputs"
-                    type="number"
+                    type=""
+                    step="any"
                     name="0,25 "
-                    step= "any"
                     placeholder="0,25"
                     onChange={(e) => {
                       setE1(parseFloat(e.target.value));
@@ -596,8 +648,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="0,5"
-                    step= "any"
                     placeholder="0,5"
                     onChange={(e) => {
                       setE2(parseFloat(e.target.value));
@@ -608,8 +660,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="1"
-                    step= "any"
                     placeholder="1"
                     onChange={(e) => {
                       setE3(parseFloat(e.target.value));
@@ -620,8 +672,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="2"
-                    step= "any"
                     placeholder="2"
                     onChange={(e) => {
                       setE4(parseFloat(e.target.value));
@@ -632,8 +684,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="3"
-                    step= "any"
                     placeholder="3"
                     onChange={(e) => {
                       setE5(parseFloat(e.target.value));
@@ -644,8 +696,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="4"
-                    step= "any"
                     placeholder="4"
                     onChange={(e) => {
                       setE6(parseFloat(e.target.value));
@@ -656,8 +708,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="6"
-                    step= "any"
                     placeholder="6"
                     onChange={(e) => {
                       setE7(parseFloat(e.target.value));
@@ -668,8 +720,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="8"
-                    step= "any"
                     placeholder="8"
                     onChange={(e) => {
                       setE8(parseFloat(e.target.value));
@@ -682,8 +734,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="D25"
-                    step= "any"
                     placeholder="0,25"
                     onChange={(e) => {
                       setD1(parseFloat(e.target.value));
@@ -694,8 +746,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="D5"
-                    step= "any"
                     placeholder="0,5"
                     onChange={(e) => {
                       setD2(parseFloat(e.target.value));
@@ -706,8 +758,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="D1"
-                    step= "any"
                     placeholder="1"
                     onChange={(e) => {
                       setD3(parseFloat(e.target.value));
@@ -718,8 +770,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="D2"
-                    step= "any"
                     placeholder="2"
                     onChange={(e) => {
                       setD4(parseFloat(e.target.value));
@@ -730,8 +782,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="D3"
-                    step= "any"
                     placeholder="3"
                     onChange={(e) => {
                       setD5(parseFloat(e.target.value));
@@ -742,8 +794,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="D4"
-                    step= "any"
                     placeholder="4"
                     onChange={(e) => {
                       setD6(parseFloat(e.target.value));
@@ -754,8 +806,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="D6"
-                    step= "any"
                     placeholder="6"
                     onChange={(e) => {
                       setD7(parseFloat(e.target.value));
@@ -766,8 +818,8 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
+                    step="any"
                     name="D8"
-                    step= "any"
                     placeholder="8"
                     onChange={(e) => {
                       setD8(parseFloat(e.target.value));

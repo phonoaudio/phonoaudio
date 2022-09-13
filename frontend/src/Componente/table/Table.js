@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import FormDialog from "../dialog/dialog";
-
+import FormDialogExam from "../exam/dialogExam";
 export const Table = (props) => {
   const [open, setOpen] = useState(false);
+  const [openExam, setOpenExam] = useState(false);
   return (
     <>
       <FormDialog
@@ -14,7 +15,8 @@ export const Table = (props) => {
         listPerson={props.listPerson}
         setListPerson={props.setListPerson}
       />
-      {console.log(props)}
+
+      <FormDialogExam open={openExam} setOpen={setOpenExam} cpf={props.cpf} />
       <tr key={props.cpf}>
         <td>{props.cpf}</td>
         <td>{props.name}</td>
@@ -22,6 +24,9 @@ export const Table = (props) => {
 
         <td>
           <button onClick={() => setOpen(true)}>Editar</button>
+        </td>
+        <td>
+          <button onClick={() => setOpenExam(true)}>Ver exames</button>
         </td>
       </tr>
     </>
