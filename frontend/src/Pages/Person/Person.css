@@ -1,0 +1,23 @@
+.person-table {
+  width: 100%;
+}
+
+.person-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #336cfb;
+  color: white;
+}
+
+.person-table td,
+.person-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.form-image-person {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 2rem;
+}
