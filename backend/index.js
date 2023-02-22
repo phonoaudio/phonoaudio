@@ -6,7 +6,7 @@ const cors = require("cors");
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "12345",
   database: "phonodb",
 });
 app.use(cors());

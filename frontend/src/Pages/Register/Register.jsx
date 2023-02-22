@@ -13,6 +13,11 @@ import { LaudoPre } from "../../laudos/laudo";
 import { proficioes } from "../../laudos/proficioes";
 import { solicitantes } from "../../laudos/solicitantes";
 import Axios from "axios";
+import { useLocation } from "react-router-dom";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 export const Register = () => {
   const [name, setName] = useState("");
@@ -26,7 +31,6 @@ export const Register = () => {
   const [fono, setFono] = useState("");
   const [isLaudo, setIsLaudo] = useState(false);
   const [laudo, setLaudo] = useState("");
-  const [isRegister, setIsRegister] = useState(false);
 
   //limiares audiometricos
   const [monoE, setMonoE] = useState(0.0);
@@ -93,6 +97,7 @@ export const Register = () => {
   const [d7, setD7] = useState(1);
   const [d8, setD8] = useState(1);
 
+  const [open, setOpen] = useState(false);
   const Ddata = useMemo(
     () => [
       ["dB", "Esquerdo", "Direito"],
@@ -151,151 +156,108 @@ export const Register = () => {
 
   const handleFocus = (event) => event.target.select();
 
-  const handleClick = () => {
-    searchPerson();
-    if (isRegister) {
-      console.log("registrado");
-      Axios.post("http://localhost:3001/exam", {
-        person_cpf: di,
-        laudo: laudo,
-        monoE: monoE,
-        dissE: dissE,
-        dbnaE: dbnaE,
-        srtE: srtE,
-        monoD: monoD,
-        dbnaD: dbnaD,
-        srtD: srtD,
-        pressaoE: pressaoE,
-        complE: complE,
-        volumeE: volumeE,
-        gradE: gradE,
-        fechaE: fechaE,
-        pressaoD: pressaoD,
-        complD: complD,
-        volumeD: volumeD,
-        gradD: gradD,
-        fechaD: fechaD,
-        contraLD1: contraLD1,
-        contraLD2: contraLD2,
-        contraLD3: contraLD3,
-        contraLD4: contraLD4,
-        contraLE1: contraLE1,
-        contraLE2: contraLE2,
-        contraLE3: contraLE3,
-        contraLE4: contraLE4,
-        ipsiD1: ipsiD1,
-        ipsiD2: ipsiD2,
-        ipsiD3: ipsiD3,
-        ipsiD4: ipsiD4,
-        ipsiE1: ipsiE1,
-        ipsiE2: ipsiE2,
-        ipsiE3: ipsiE3,
-        e1: e1,
-        e2: e2,
-        e3: e3,
-        e4: e4,
-        e5: e5,
-        e6: e6,
-        e7: e7,
-        e8: e8,
-        d1: d1,
-        d2: d2,
-        d3: d3,
-        d4: d4,
-        d5: d5,
-        d6: d6,
-        d7: d7,
-        d8: d8,
-      }).then(function (response) {
-        console.log(response);
-      });
-    } else {
-      Axios.post("http://localhost:3001/register", {
-        cpf: di,
-        name: name,
-        profession: profession,
-        insurance: insurance,
-        requester: requester,
-        age: age,
-        sex: sex,
-        dn: dn,
-        fono: fono,
+  const handleClick = (event) => {
+    setOpen(true);
+    event.preventDefault();
 
-        person_cpf: di,
-        laudo: laudo,
-        monoE: monoE,
-        dissE: dissE,
-        dbnaE: dbnaE,
-        srtE: srtE,
-        monoD: monoD,
-        dbnaD: dbnaD,
-        srtD: srtD,
-        pressaoE: pressaoE,
-        complE: complE,
-        volumeE: volumeE,
-        gradE: gradE,
-        fechaE: fechaE,
-        pressaoD: pressaoD,
-        complD: complD,
-        volumeD: volumeD,
-        gradD: gradD,
-        fechaD: fechaD,
-        contraLD1: contraLD1,
-        contraLD2: contraLD2,
-        contraLD3: contraLD3,
-        contraLD4: contraLD4,
-        contraLE1: contraLE1,
-        contraLE2: contraLE2,
-        contraLE3: contraLE3,
-        contraLE4: contraLE4,
-        ipsiD1: ipsiD1,
-        ipsiD2: ipsiD2,
-        ipsiD3: ipsiD3,
-        ipsiD4: ipsiD4,
-        ipsiE1: ipsiE1,
-        ipsiE2: ipsiE2,
-        ipsiE3: ipsiE3,
-        e1: e1,
-        e2: e2,
-        e3: e3,
-        e4: e4,
-        e5: e5,
-        e6: e6,
-        e7: e7,
-        e8: e8,
-        d1: d1,
-        d2: d2,
-        d3: d3,
-        d4: d4,
-        d5: d5,
-        d6: d6,
-        d7: d7,
-        d8: d8,
-      });
-    }
+    Axios.post("http://localhost:3001/register", {
+      cpf: di,
+      name: name,
+      profession: profession,
+      insurance: insurance,
+      requester: requester,
+      age: age,
+      sex: sex,
+      dn: dn,
+      fono: fono,
+
+      person_cpf: di,
+      laudo: laudo,
+      monoE: monoE,
+      dissE: dissE,
+      dbnaE: dbnaE,
+      srtE: srtE,
+      monoD: monoD,
+      dbnaD: dbnaD,
+      srtD: srtD,
+      pressaoE: pressaoE,
+      complE: complE,
+      volumeE: volumeE,
+      gradE: gradE,
+      fechaE: fechaE,
+      pressaoD: pressaoD,
+      complD: complD,
+      volumeD: volumeD,
+      gradD: gradD,
+      fechaD: fechaD,
+      contraLD1: contraLD1,
+      contraLD2: contraLD2,
+      contraLD3: contraLD3,
+      contraLD4: contraLD4,
+      contraLE1: contraLE1,
+      contraLE2: contraLE2,
+      contraLE3: contraLE3,
+      contraLE4: contraLE4,
+      ipsiD1: ipsiD1,
+      ipsiD2: ipsiD2,
+      ipsiD3: ipsiD3,
+      ipsiD4: ipsiD4,
+      ipsiE1: ipsiE1,
+      ipsiE2: ipsiE2,
+      ipsiE3: ipsiE3,
+      e1: e1,
+      e2: e2,
+      e3: e3,
+      e4: e4,
+      e5: e5,
+      e6: e6,
+      e7: e7,
+      e8: e8,
+      d1: d1,
+      d2: d2,
+      d3: d3,
+      d4: d4,
+      d5: d5,
+      d6: d6,
+      d7: d7,
+      d8: d8,
+    });
   };
 
-  function searchPerson() {
-    Axios.get(`http://localhost:3001/person/${di}`, { cpf: di }).then(function (
-      response
-    ) {
-      if (response.data) {
-        setDn(response.data[0].dn);
-        setFono(response.data[0].fono);
-        setInsurance(response.data[0].insurance);
-        setName(response.data[0].name);
-        setProfession(response.data[0].profession);
-        setRequester(response.data[0].requester);
-        setSex(response.data[0].sex);
-        setIsRegister(true);
-      } else {
-        setIsRegister(false);
+  function searchPerson(cpf) {
+    Axios.get(`http://localhost:3001/person/${cpf}`, { cpf: cpf }).then(
+      function (response) {
+        if (response.data) {
+          setDi(cpf);
+          setDn(response.data[0].dn);
+          setFono(response.data[0].fono);
+          setInsurance(response.data[0].insurance);
+          setName(response.data[0].name);
+          setProfession(response.data[0].profession);
+          setRequester(response.data[0].requester);
+          setSex(response.data[0].sex);
+        }
       }
-    });
+    );
   }
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const cpf = searchParams.get("cpf");
+
+  if (cpf) {
+    searchPerson(cpf);
+  }
+
   return (
     <>
       {" "}
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Examer registrado!</DialogTitle>
+      </Dialog>
       <div className="register-wrapper">
         <div className="container">
           <div className="form-image">
@@ -932,7 +894,7 @@ export const Register = () => {
                 <h3>Cadastrar Impedanciometria</h3>
 
                 <div className="impedanciometria-inputs">
-                  <label htmlFor="">OE: </label>
+                  <label htmlFor="">OD: </label>
                   <div className="Impedanciometria">
                     <label htmlFor=""> Pressão</label>
                     <input
@@ -991,7 +953,7 @@ export const Register = () => {
                   </div>
                 </div>
                 <div className="impedanciometria-inputs">
-                  <label htmlFor="">OD: </label>
+                  <label htmlFor="">OE: </label>
                   <div className="Impedanciometria">
                     <label htmlFor=""> Pressão</label>
                     <input
@@ -1244,7 +1206,7 @@ export const Register = () => {
                 </div>
               </div>
               <div className="continue-button">
-                <button onClick={handleClick}>
+                <button onClick={(e) => handleClick(e)}>
                   <p>Cadastrar</p>
                 </button>
               </div>

@@ -11,7 +11,6 @@ export const Table = (props) => {
         setOpen={setOpen}
         name={props.name}
         cpf={props.cpf}
-        insurance={props.insurance}
         listPerson={props.listPerson}
         setListPerson={props.setListPerson}
       />
@@ -20,7 +19,6 @@ export const Table = (props) => {
       <tr key={props.cpf}>
         <td>{props.cpf}</td>
         <td>{props.name}</td>
-        <td>{props.insurance}</td>
 
         <td>
           <button onClick={() => setOpen(true)}>Editar</button>

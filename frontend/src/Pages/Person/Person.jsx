@@ -9,7 +9,6 @@ export const Person = () => {
       setListPerson(response.data);
     });
   }, []);
-
   const [listPerson, setListPerson] = useState();
   const [filterListPerson, setFilterListPerson] = useState();
   const [search, setSearch] = useState("");
@@ -24,6 +23,17 @@ export const Person = () => {
     }
     return setFilterListPerson(null);
   }
+
+  useEffect(() => {
+    if (listPerson) {
+      setFilterListPerson(
+        listPerson.filter((person) =>
+          person.name.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    }
+  }, [search, listPerson]);
+
   return (
     <div className="register-wrapper">
       <label htmlFor="search">Busca: </label>
@@ -39,8 +49,7 @@ export const Person = () => {
           <thead>
             <tr>
               <th scope="col">CPF</th>
-              <th scope="col">Name</th>
-              <th scope="col">Convênio</th>
+              <th scope="col">Nome</th>
               <th scope="col">Editar</th>
               <th scope="col">Exames</th>
             </tr>
@@ -53,7 +62,6 @@ export const Person = () => {
                       cpf={value?.cpf}
                       name={value?.name}
                       dn={value?.dn}
-                      insurance={value.insurance}
                       listPerson={listPerson}
                       setListPerson={setListPerson}
                     />
@@ -65,7 +73,6 @@ export const Person = () => {
                       cpf={value?.cpf}
                       name={value?.name}
                       dn={value?.dn}
-                      insurance={value.insurance}
                       listPerson={listPerson}
                       setListPerson={setListPerson}
                     />
