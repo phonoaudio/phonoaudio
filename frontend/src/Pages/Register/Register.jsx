@@ -79,23 +79,23 @@ export const Register = () => {
     legend: { position: "bottom" },
   };
 
-  const [e1, setE1] = useState(1);
-  const [e2, setE2] = useState(1);
-  const [e3, setE3] = useState(1);
-  const [e4, setE4] = useState(1);
-  const [e5, setE5] = useState(1);
-  const [e6, setE6] = useState(1);
-  const [e7, setE7] = useState(1);
-  const [e8, setE8] = useState(1);
+  const [e1, setE1] = useState(0.0);
+  const [e2, setE2] = useState(0.0);
+  const [e3, setE3] = useState(0.0);
+  const [e4, setE4] = useState(0.0);
+  const [e5, setE5] = useState(0.0);
+  const [e6, setE6] = useState(0.0);
+  const [e7, setE7] = useState(0.0);
+  const [e8, setE8] = useState(0.0);
 
-  const [d1, setD1] = useState(1);
-  const [d2, setD2] = useState(1);
-  const [d3, setD3] = useState(1);
-  const [d4, setD4] = useState(1);
-  const [d5, setD5] = useState(1);
-  const [d6, setD6] = useState(1);
-  const [d7, setD7] = useState(1);
-  const [d8, setD8] = useState(1);
+  const [d1, setD1] = useState(0.0);
+  const [d2, setD2] = useState(0.0);
+  const [d3, setD3] = useState(0.0);
+  const [d4, setD4] = useState(0.0);
+  const [d5, setD5] = useState(0.0);
+  const [d6, setD6] = useState(0.0);
+  const [d7, setD7] = useState(0.0);
+  const [d8, setD8] = useState(0.0);
 
   const [open, setOpen] = useState(false);
   const Ddata = useMemo(
@@ -236,16 +236,97 @@ export const Register = () => {
           setProfession(response.data[0].profession);
           setRequester(response.data[0].requester);
           setSex(response.data[0].sex);
+          console.log(response.data);
         }
       }
     );
   }
+
+  function searchPersonExam(cpf, idExam) {
+    Axios.get(`http://localhost:3001/person/${cpf}`, { cpf: cpf }).then(
+      function (response) {
+        if (response.data) {
+          setDi(cpf);
+          setDn(response.data[0].dn);
+          setFono(response.data[0].fono);
+          setInsurance(response.data[0].insurance);
+          setName(response.data[0].name);
+          setProfession(response.data[0].profession);
+          setRequester(response.data[0].requester);
+          setSex(response.data[0].sex);
+        }
+      }
+    );
+
+    Axios.get(`http://localhost:3001/exam/${cpf}`, { cpf: cpf }).then(function (
+      response
+    ) {
+      if (response.data) {
+        console.log(response.data);
+        var filterExam = response.data.filter(
+          (item) => item.id === parseInt(idExam)
+        );
+        console.log(parseFloat(filterExam[0].d1));
+        setIsLaudo(true);
+        setComplD(filterExam[0].complD);
+        setComplE(filterExam[0].complE);
+        setContraLD1(filterExam[0].contraLD1);
+        setContraLD2(filterExam[0].contraLD2);
+        setContraLD3(filterExam[0].contraLD3);
+        setContraLD4(filterExam[0].contraLD4);
+        setContraLE1(filterExam[0].contraLE1);
+        setContraLE2(filterExam[0].contraLE2);
+        setContraLE3(filterExam[0].contraLE3);
+        setContraLE4(filterExam[0].contraLE4);
+        setD1(parseFloat(filterExam[0].d1));
+        setD2(parseFloat(filterExam[0].d2));
+        setD3(parseFloat(filterExam[0].d3));
+        setD4(parseFloat(filterExam[0].d4));
+        setD5(parseFloat(filterExam[0].d5));
+        setD6(parseFloat(filterExam[0].d6));
+        setD7(parseFloat(filterExam[0].d7));
+        setD8(parseFloat(filterExam[0].d8));
+        setE1(parseFloat(filterExam[0].e1));
+        setE2(parseFloat(filterExam[0].e2));
+        setE3(parseFloat(filterExam[0].e3));
+        setE4(parseFloat(filterExam[0].e4));
+        setE5(parseFloat(filterExam[0].e5));
+        setE6(parseFloat(filterExam[0].e6));
+        setE7(parseFloat(filterExam[0].e7));
+        setE8(parseFloat(filterExam[0].e8));
+        setDbnaD(filterExam[0].dbnaD);
+        setDbnaE(filterExam[0].dbnaE);
+        setDissE(filterExam[0].dissE);
+        setFechaD(filterExam[0].fechaD);
+        setFechaE(filterExam[0].fechaE);
+        setGradD(filterExam[0].gradD);
+        setGradE(filterExam[0].gradE);
+        setIpsiD1(filterExam[0].ipsiD1);
+        setIpsiD2(filterExam[0].ipsiD2);
+        setIpsiD3(filterExam[0].ipsiD3);
+        setIpsiD4(filterExam[0].ipsiD4);
+        setIpsiE1(filterExam[0].ipsiE1);
+        setIpsiE2(filterExam[0].ipsiE2);
+        setIpsiE3(filterExam[0].ipsiE3);
+        setLaudo(filterExam[0].laudo);
+        setMonoD(filterExam[0].monoD);
+        setMonoE(filterExam[0].monoE);
+        setPressaoD(filterExam[0].pressaoD);
+        setPressaoE(filterExam[0].pressaoE);
+        setSrtD(filterExam[0].srtD);
+        setSrtE(filterExam[0].srtE);
+        setVolumeD(filterExam[0].volumeD);
+        setVolumeE(filterExam[0].volumeE);
+      }
+    });
+  }
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const cpf = searchParams.get("cpf");
-
+  const idExam = searchParams.get("id");
   if (cpf) {
-    searchPerson(cpf);
+    searchPersonExam(cpf, idExam);
   }
 
   return (
@@ -256,7 +337,7 @@ export const Register = () => {
         onClose={() => setOpen(false)}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Examer registrado!</DialogTitle>
+        <DialogTitle id="form-dialog-title">Exame registrado!</DialogTitle>
       </Dialog>
       <div className="register-wrapper">
         <div className="container">
@@ -605,6 +686,7 @@ export const Register = () => {
                       setE1(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={e1}
                   ></input>
 
                   <input
@@ -617,6 +699,7 @@ export const Register = () => {
                       setE2(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={e2}
                   ></input>
 
                   <input
@@ -629,6 +712,7 @@ export const Register = () => {
                       setE3(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={e3}
                   ></input>
 
                   <input
@@ -641,6 +725,7 @@ export const Register = () => {
                       setE4(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={e4}
                   ></input>
 
                   <input
@@ -653,6 +738,7 @@ export const Register = () => {
                       setE5(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={e5}
                   ></input>
 
                   <input
@@ -665,6 +751,7 @@ export const Register = () => {
                       setE6(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={e6}
                   ></input>
 
                   <input
@@ -677,6 +764,7 @@ export const Register = () => {
                       setE7(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={e7}
                   ></input>
 
                   <input
@@ -689,6 +777,7 @@ export const Register = () => {
                       setE8(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={e8}
                   ></input>
                 </div>
 
@@ -703,6 +792,7 @@ export const Register = () => {
                       setD1(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={d1}
                   ></input>
 
                   <input
@@ -715,6 +805,7 @@ export const Register = () => {
                       setD2(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={d2}
                   ></input>
 
                   <input
@@ -727,6 +818,7 @@ export const Register = () => {
                       setD3(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={d3}
                   ></input>
 
                   <input
@@ -739,6 +831,7 @@ export const Register = () => {
                       setD4(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={d4}
                   ></input>
 
                   <input
@@ -751,6 +844,7 @@ export const Register = () => {
                       setD5(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={d5}
                   ></input>
 
                   <input
@@ -763,6 +857,7 @@ export const Register = () => {
                       setD6(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={d6}
                   ></input>
 
                   <input
@@ -775,6 +870,7 @@ export const Register = () => {
                       setD7(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={d7}
                   ></input>
 
                   <input
@@ -787,6 +883,7 @@ export const Register = () => {
                       setD8(parseFloat(e.target.value));
                     }}
                     onFocus={handleFocus}
+                    value={d8}
                   ></input>
                 </div>
               </div>
@@ -801,6 +898,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setMonoE(parseFloat(e.target.value));
                       }}
+                      value={monoE}
                     ></input>
                     <label htmlFor="">% Mono</label>
                   </div>
@@ -812,6 +910,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setDissE(parseFloat(e.target.value));
                       }}
+                      value={dissE}
                     ></input>
                     <label htmlFor="">% Diss</label>
                   </div>
@@ -823,6 +922,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setDbnaE(parseFloat(e.target.value));
                       }}
+                      value={dbnaE}
                     ></input>
                     <label htmlFor="">dBNA</label>
                   </div>
@@ -835,6 +935,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setSrtE(parseFloat(e.target.value));
                       }}
+                      value={srtE}
                     ></input>
                     <label htmlFor="">dBNA</label>
                   </div>
@@ -850,6 +951,7 @@ export const Register = () => {
                     onChange={(e) => {
                       setMonoD(parseFloat(e.target.value));
                     }}
+                    value={monoD}
                   ></input>
                   <label htmlFor="">% Mono</label>
                 </div>
@@ -861,6 +963,7 @@ export const Register = () => {
                     onChange={(e) => {
                       setDissD(parseFloat(e.target.value));
                     }}
+                    value={dissD}
                   ></input>
                   <label htmlFor="">% Diss</label>
                 </div>
@@ -872,6 +975,7 @@ export const Register = () => {
                     onChange={(e) => {
                       setDbnaD(parseFloat(e.target.value));
                     }}
+                    value={dbnaD}
                   ></input>
                   <label htmlFor="">dBNA</label>
                 </div>
@@ -884,6 +988,7 @@ export const Register = () => {
                     onChange={(e) => {
                       setSrtD(parseFloat(e.target.value));
                     }}
+                    value={srtD}
                   ></input>
                   <label htmlFor="">dBNA</label>
                 </div>
@@ -904,6 +1009,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setPressaoE(parseFloat(e.target.value));
                       }}
+                      value={pressaoE}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -915,6 +1021,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setComplE(parseFloat(e.target.value));
                       }}
+                      value={complE}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -926,6 +1033,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setVolumeE(parseFloat(e.target.value));
                       }}
+                      value={volumeE}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -937,6 +1045,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setGradE(parseFloat(e.target.value));
                       }}
+                      value={gradE}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -963,6 +1072,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setPressaoD(parseFloat(e.target.value));
                       }}
+                      value={pressaoD}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -974,6 +1084,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setComplD(parseFloat(e.target.value));
                       }}
+                      value={complD}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -985,6 +1096,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setVolumeD(parseFloat(e.target.value));
                       }}
+                      value={volumeD}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -996,6 +1108,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setGradD(parseFloat(e.target.value));
                       }}
+                      value={gradD}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1025,6 +1138,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setContraLD1(parseFloat(e.target.value));
                       }}
+                      value={contraLD1}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1036,6 +1150,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setContraLD2(parseFloat(e.target.value));
                       }}
+                      value={contraLD2}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1047,6 +1162,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setContraLD3(parseFloat(e.target.value));
                       }}
+                      value={contraLD3}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1058,6 +1174,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setContraLD4(parseFloat(e.target.value));
                       }}
+                      value={contraLD4}
                     ></input>
                   </div>
                 </div>
@@ -1072,6 +1189,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setContraLE1(parseFloat(e.target.value));
                       }}
+                      value={contraLE1}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1083,6 +1201,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setContraLE2(parseFloat(e.target.value));
                       }}
+                      value={contraLE2}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1094,6 +1213,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setContraLE3(parseFloat(e.target.value));
                       }}
+                      value={contraLE3}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1105,6 +1225,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setContraLE4(parseFloat(e.target.value));
                       }}
+                      value={contraLE4}
                     ></input>
                   </div>
                 </div>
@@ -1121,6 +1242,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setIpsiD1(parseFloat(e.target.value));
                       }}
+                      value={ipsiD1}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1132,6 +1254,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setIpsiD2(parseFloat(e.target.value));
                       }}
+                      value={ipsiD2}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1143,6 +1266,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setIpsiD3(parseFloat(e.target.value));
                       }}
+                      value={ipsiD3}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1154,6 +1278,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setIpsiD4(parseFloat(e.target.value));
                       }}
+                      value={ipsiD4}
                     ></input>
                   </div>
                 </div>
@@ -1168,6 +1293,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setIpsiE1(parseFloat(e.target.value));
                       }}
+                      value={ipsiE1}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1179,6 +1305,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setIpsiE2(parseFloat(e.target.value));
                       }}
+                      value={ipsiE2}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1190,6 +1317,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setIpsiE3(parseFloat(e.target.value));
                       }}
+                      value={ipsiE3}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1201,6 +1329,7 @@ export const Register = () => {
                       onChange={(e) => {
                         setIpsiE4(parseFloat(e.target.value));
                       }}
+                      value={ipsiE4}
                     ></input>
                   </div>
                 </div>

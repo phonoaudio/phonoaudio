@@ -9,7 +9,7 @@ export const NavigationMenu = () => {
         <div className="navigation-buttons-container">
           <div className="navigation-buttons">
             <AiOutlineFileText size={22} />
-            <a href="/Person">Paciente</a>
+            <a href="/Person">Pacientes</a>
           </div>
           <div className="navigation-buttons">
             <AiOutlineReconciliation size={22} />

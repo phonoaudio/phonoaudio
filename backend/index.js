@@ -301,6 +301,7 @@ app.get("/exam/:cpf", (req, res) => {
     else res.send(result);
   });
 });
+
 app.put("/edit", (req, res) => {
   const { cpf } = req.body;
   const { name } = req.body;

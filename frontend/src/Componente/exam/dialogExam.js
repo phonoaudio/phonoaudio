@@ -29,7 +29,6 @@ export default function FormDialogExam(props) {
   const handleClose = () => {
     props.setOpen(false);
   };
-  console.log(exams);
   return (
     <div>
       <Dialog
@@ -52,7 +51,9 @@ export default function FormDialogExam(props) {
                 <tbody>
                   <td>{value?.laudo}</td>
                   <td>
-                    <a href={`/?cpf=${value?.person_cpf}`}>Editar</a>
+                    <a href={`/?cpf=${value?.person_cpf}&id=${value?.id}`}>
+                      Editar
+                    </a>
                   </td>
                 </tbody>
               ))}
