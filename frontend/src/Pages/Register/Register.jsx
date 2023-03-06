@@ -31,7 +31,7 @@ export const Register = () => {
   const [fono, setFono] = useState("");
   const [isLaudo, setIsLaudo] = useState(false);
   const [laudo, setLaudo] = useState("");
-
+  const [borning, setBorning] = useState("");
   //limiares audiometricos
   const [monoE, setMonoE] = useState(0.0);
   const [dissE, setDissE] = useState(0.0);
@@ -154,6 +154,12 @@ export const Register = () => {
     setDChart(Ddata);
   }, [Ddata]);
 
+  useEffect(() => {
+    if (dn !== "") {
+      const dataAux = dn?.split("-");
+      setBorning(dataAux[2] + "/" + dataAux[1] + "/" + dataAux[0]);
+    }
+  }, [dn]);
   const handleFocus = (event) => event.target.select();
 
   const handleClick = (event) => {
@@ -236,7 +242,6 @@ export const Register = () => {
           setProfession(response.data[0].profession);
           setRequester(response.data[0].requester);
           setSex(response.data[0].sex);
-          console.log(response.data);
         }
       }
     );
@@ -262,11 +267,10 @@ export const Register = () => {
       response
     ) {
       if (response.data) {
-        console.log(response.data);
         var filterExam = response.data.filter(
           (item) => item.id === parseInt(idExam)
         );
-        console.log(parseFloat(filterExam[0].d1));
+
         setIsLaudo(true);
         setComplD(filterExam[0].complD);
         setComplE(filterExam[0].complE);
@@ -301,13 +305,13 @@ export const Register = () => {
         setFechaE(filterExam[0].fechaE);
         setGradD(filterExam[0].gradD);
         setGradE(filterExam[0].gradE);
-        setIpsiD1(filterExam[0].ipsiD1);
-        setIpsiD2(filterExam[0].ipsiD2);
-        setIpsiD3(filterExam[0].ipsiD3);
-        setIpsiD4(filterExam[0].ipsiD4);
-        setIpsiE1(filterExam[0].ipsiE1);
-        setIpsiE2(filterExam[0].ipsiE2);
-        setIpsiE3(filterExam[0].ipsiE3);
+        setIpsiD1(parseFloat(filterExam[0].ipsiD1));
+        setIpsiD2(parseFloat(filterExam[0].ipsiD2));
+        setIpsiD3(parseFloat(filterExam[0].ipsiD3));
+        setIpsiD4(parseFloat(filterExam[0].ipsiD4));
+        setIpsiE1(parseFloat(filterExam[0].ipsiE1));
+        setIpsiE2(parseFloat(filterExam[0].ipsiE2));
+        setIpsiE3(parseFloat(filterExam[0].ipsiE3));
         setLaudo(filterExam[0].laudo);
         setMonoD(filterExam[0].monoD);
         setMonoE(filterExam[0].monoE);
@@ -325,9 +329,12 @@ export const Register = () => {
   const searchParams = new URLSearchParams(location.search);
   const cpf = searchParams.get("cpf");
   const idExam = searchParams.get("id");
-  if (cpf) {
-    searchPersonExam(cpf, idExam);
-  }
+
+  useEffect(() => {
+    if (cpf) {
+      searchPersonExam(cpf, idExam);
+    }
+  }, []);
 
   return (
     <>
@@ -383,7 +390,7 @@ export const Register = () => {
                 </div>
                 <div className="form-information">
                   <label>Nascimento: </label>
-                  <p>{dn}</p>
+                  <p>{borning}</p>
                 </div>
                 <div className="form-information">
                   <label>Documento: </label>
@@ -539,7 +546,7 @@ export const Register = () => {
                 <div className="input-box">
                   <label htmlFor="firstname">Nome</label>
                   <input
-                    onClick={(e) => e.select()}
+                    onClick={(e) => e.select}
                     id="firstname"
                     type="text"
                     name="firstname"
@@ -611,7 +618,9 @@ export const Register = () => {
                     placeholder="Sexo do pacien"
                     value={sex}
                     onChange={(e) => setSex(e.target.value)}
+                    defaultChecked={"other"}
                   >
+                    <option value="" data-default disabled selected></option>
                     <option value="masculine">Masculino</option>
                     <option value="feminine">Feminino</option>
                     <option value="other">Outro</option>
@@ -678,8 +687,7 @@ export const Register = () => {
                 <div className="inputs">
                   <input
                     className="charts-inputs"
-                    type=""
-                    step="any"
+                    type="number"
                     name="0,25 "
                     placeholder="0,25"
                     onChange={(e) => {
@@ -687,12 +695,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={e1}
+                    defaultValue={e1}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="0,5"
                     placeholder="0,5"
                     onChange={(e) => {
@@ -700,12 +708,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={e2}
+                    defaultValue={e2}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="1"
                     placeholder="1"
                     onChange={(e) => {
@@ -713,12 +721,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={e3}
+                    defaultValue={e3}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="2"
                     placeholder="2"
                     onChange={(e) => {
@@ -726,12 +734,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={e4}
+                    defaultValue={e4}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="3"
                     placeholder="3"
                     onChange={(e) => {
@@ -739,12 +747,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={e5}
+                    defaultValue={e5}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="4"
                     placeholder="4"
                     onChange={(e) => {
@@ -752,12 +760,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={e6}
+                    defaultValue={e6}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="6"
                     placeholder="6"
                     onChange={(e) => {
@@ -765,12 +773,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={e7}
+                    defaultValue={e7}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="8"
                     placeholder="8"
                     onChange={(e) => {
@@ -778,6 +786,7 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={e8}
+                    defaultValue={e8}
                   ></input>
                 </div>
 
@@ -785,7 +794,6 @@ export const Register = () => {
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="D25"
                     placeholder="0,25"
                     onChange={(e) => {
@@ -793,12 +801,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={d1}
+                    defaultValue={d1}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="D5"
                     placeholder="0,5"
                     onChange={(e) => {
@@ -806,12 +814,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={d2}
+                    defaultVlue={d2}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="D1"
                     placeholder="1"
                     onChange={(e) => {
@@ -819,12 +827,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={d3}
+                    defaultValue={d3}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="D2"
                     placeholder="2"
                     onChange={(e) => {
@@ -832,12 +840,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={d4}
+                    DefaultValue={d4}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="D3"
                     placeholder="3"
                     onChange={(e) => {
@@ -845,12 +853,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={d5}
+                    DefaultValue={d5}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="D4"
                     placeholder="4"
                     onChange={(e) => {
@@ -858,12 +866,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={d6}
+                    defaultValue={d6}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="D6"
                     placeholder="6"
                     onChange={(e) => {
@@ -871,12 +879,12 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={d7}
+                    defaultValue={d7}
                   ></input>
 
                   <input
                     className="charts-inputs"
                     type="number"
-                    step="any"
                     name="D8"
                     placeholder="8"
                     onChange={(e) => {
@@ -884,6 +892,7 @@ export const Register = () => {
                     }}
                     onFocus={handleFocus}
                     value={d8}
+                    defaultValue={d8}
                   ></input>
                 </div>
               </div>
@@ -899,6 +908,7 @@ export const Register = () => {
                         setMonoE(parseFloat(e.target.value));
                       }}
                       value={monoE}
+                      defaultValue={monoE}
                     ></input>
                     <label htmlFor="">% Mono</label>
                   </div>
@@ -911,6 +921,7 @@ export const Register = () => {
                         setDissE(parseFloat(e.target.value));
                       }}
                       value={dissE}
+                      defaultValue={dissE}
                     ></input>
                     <label htmlFor="">% Diss</label>
                   </div>
@@ -923,6 +934,7 @@ export const Register = () => {
                         setDbnaE(parseFloat(e.target.value));
                       }}
                       value={dbnaE}
+                      defaultValue={dbnaE}
                     ></input>
                     <label htmlFor="">dBNA</label>
                   </div>
@@ -936,6 +948,7 @@ export const Register = () => {
                         setSrtE(parseFloat(e.target.value));
                       }}
                       value={srtE}
+                      defaultValue={srtE}
                     ></input>
                     <label htmlFor="">dBNA</label>
                   </div>
@@ -952,6 +965,7 @@ export const Register = () => {
                       setMonoD(parseFloat(e.target.value));
                     }}
                     value={monoD}
+                    defaultValue={monoD}
                   ></input>
                   <label htmlFor="">% Mono</label>
                 </div>
@@ -964,6 +978,7 @@ export const Register = () => {
                       setDissD(parseFloat(e.target.value));
                     }}
                     value={dissD}
+                    defaultValue={dissD}
                   ></input>
                   <label htmlFor="">% Diss</label>
                 </div>
@@ -976,6 +991,7 @@ export const Register = () => {
                       setDbnaD(parseFloat(e.target.value));
                     }}
                     value={dbnaD}
+                    defaultValue={dbnaD}
                   ></input>
                   <label htmlFor="">dBNA</label>
                 </div>
@@ -989,6 +1005,7 @@ export const Register = () => {
                       setSrtD(parseFloat(e.target.value));
                     }}
                     value={srtD}
+                    defaultValue={srtD}
                   ></input>
                   <label htmlFor="">dBNA</label>
                 </div>
@@ -1005,11 +1022,12 @@ export const Register = () => {
                     <input
                       className="charts-inputs"
                       type="number"
-                      name="pressao "
+                      name="pressaoE"
                       onChange={(e) => {
                         setPressaoE(parseFloat(e.target.value));
                       }}
                       value={pressaoE}
+                      defaultValue={pressaoE}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1022,6 +1040,7 @@ export const Register = () => {
                         setComplE(parseFloat(e.target.value));
                       }}
                       value={complE}
+                      defaultValue={complE}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1054,7 +1073,7 @@ export const Register = () => {
                       className="charts-inputs"
                       type="number"
                       name="fecha"
-                      value={fechaE}
+                      defaultValue={fechaE}
                       onChange={(e) => {
                         setFechaE(parseFloat(e.target.value));
                       }}
@@ -1073,6 +1092,7 @@ export const Register = () => {
                         setPressaoD(parseFloat(e.target.value));
                       }}
                       value={pressaoD}
+                      defaultValue={pressaoD}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1085,6 +1105,7 @@ export const Register = () => {
                         setComplD(parseFloat(e.target.value));
                       }}
                       value={complD}
+                      defaultValue={complD}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1097,6 +1118,7 @@ export const Register = () => {
                         setVolumeD(parseFloat(e.target.value));
                       }}
                       value={volumeD}
+                      defaultValue={volumeD}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1109,6 +1131,7 @@ export const Register = () => {
                         setGradD(parseFloat(e.target.value));
                       }}
                       value={gradD}
+                      defaultValue={gradD}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1118,6 +1141,7 @@ export const Register = () => {
                       type="number"
                       name="fechaD"
                       value={fechaD}
+                      defaultValue={fechaD}
                       onChange={(e) => {
                         setFechaD(parseFloat(e.target.value));
                       }}
@@ -1139,6 +1163,7 @@ export const Register = () => {
                         setContraLD1(parseFloat(e.target.value));
                       }}
                       value={contraLD1}
+                      defaultValue={contraLD1}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1151,6 +1176,7 @@ export const Register = () => {
                         setContraLD2(parseFloat(e.target.value));
                       }}
                       value={contraLD2}
+                      defaultValue={contraLD2}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1163,6 +1189,7 @@ export const Register = () => {
                         setContraLD3(parseFloat(e.target.value));
                       }}
                       value={contraLD3}
+                      defaultValue={contraLD3}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1175,6 +1202,7 @@ export const Register = () => {
                         setContraLD4(parseFloat(e.target.value));
                       }}
                       value={contraLD4}
+                      defaultValue={contraLD4}
                     ></input>
                   </div>
                 </div>
@@ -1190,6 +1218,7 @@ export const Register = () => {
                         setContraLE1(parseFloat(e.target.value));
                       }}
                       value={contraLE1}
+                      defaultValue={contraLE1}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1202,6 +1231,7 @@ export const Register = () => {
                         setContraLE2(parseFloat(e.target.value));
                       }}
                       value={contraLE2}
+                      defaultValue={contraLE2}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1214,6 +1244,7 @@ export const Register = () => {
                         setContraLE3(parseFloat(e.target.value));
                       }}
                       value={contraLE3}
+                      defaultValue={contraLE3}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1226,6 +1257,7 @@ export const Register = () => {
                         setContraLE4(parseFloat(e.target.value));
                       }}
                       value={contraLE4}
+                      defaultValue={contraLE4}
                     ></input>
                   </div>
                 </div>
@@ -1243,6 +1275,7 @@ export const Register = () => {
                         setIpsiD1(parseFloat(e.target.value));
                       }}
                       value={ipsiD1}
+                      defaultValue={ipsiD1}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1255,6 +1288,7 @@ export const Register = () => {
                         setIpsiD2(parseFloat(e.target.value));
                       }}
                       value={ipsiD2}
+                      defaultValue={ipsiD2}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1267,6 +1301,7 @@ export const Register = () => {
                         setIpsiD3(parseFloat(e.target.value));
                       }}
                       value={ipsiD3}
+                      defaultValue={ipsiD3}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1279,6 +1314,7 @@ export const Register = () => {
                         setIpsiD4(parseFloat(e.target.value));
                       }}
                       value={ipsiD4}
+                      defaultValue={ipsiD4}
                     ></input>
                   </div>
                 </div>
@@ -1294,6 +1330,7 @@ export const Register = () => {
                         setIpsiE1(parseFloat(e.target.value));
                       }}
                       value={ipsiE1}
+                      defaultValue={ipsiE1}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1306,6 +1343,7 @@ export const Register = () => {
                         setIpsiE2(parseFloat(e.target.value));
                       }}
                       value={ipsiE2}
+                      defaultValue={ipsiE2}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1318,6 +1356,7 @@ export const Register = () => {
                         setIpsiE3(parseFloat(e.target.value));
                       }}
                       value={ipsiE3}
+                      defaultValue={ipsiE3}
                     ></input>
                   </div>
                   <div className="Impedanciometria">
@@ -1330,6 +1369,7 @@ export const Register = () => {
                         setIpsiE4(parseFloat(e.target.value));
                       }}
                       value={ipsiE4}
+                      defaultValue={ipsiE4}
                     ></input>
                   </div>
                 </div>
